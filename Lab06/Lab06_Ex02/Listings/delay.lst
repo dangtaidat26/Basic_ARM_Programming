@@ -1,0 +1,88 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 THUMB
+    2 00000000         ; Delay.s
+    3 00000000         ; Delay function
+    4 00000000         ; generate 100 ms delay from System clock = 48 MHz (47.9
+                       72.352 Hz)
+    5 00000000         ; Input: R0 contain iteration number
+    6 00000000         ; Time for each instruction:
+    7 00000000         ; Refer at: http://infocenter.arm.com/help/index.jsp?top
+                       ic=/com.arm.doc.ddi0484b/CHDCICDF.html
+    8 00000000         ; LDR takes about 2 clock cycles
+    9 00000000         ; SUBS takes about 1 clock cycle
+   10 00000000         ; CMP takes about 1 clock cycle
+   11 00000000         ; B<cc> <label> (conditional branch) takes 2 cycle if ta
+                       ken, 1 cycle if not
+   12 00000000         ; B     <label> (unconditional branch) takes 1 cycle
+   13 00000000         ; => number of clock cycle = 2 + 4 * numOfLoop. 100ms =>
+                         47972350 cycles => numOfLoop should be 1.199.309
+   14 00000000         
+   15 00000000                 AREA             DelayA, CODE, READONLY 
+                                                            ; declare code area
+                                                            
+   16 00000000                 ENTRY
+   17 00000000                 EXPORT           Delay       ; make delay functi
+                                                            on visible to main(
+                                                            )
+   18 00000000         Delay
+   19 00000000 4802            LDR              r0, =1199309
+   20 00000002         LOOP
+   21 00000002 1E40            SUBS             r0,r0,#1
+   22 00000004 2800            CMP              r0, #0
+   23 00000006 D000            BEQ              LOOPEND
+   24 00000008 E7FB            B                LOOP
+   25 0000000A         LOOPEND
+   26 0000000A                 END
+              00 00 00124CCD 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0+ --apcs=inter
+work --depend=.\objects\delay.d -o.\objects\delay.o -I.\RTE\Device\MKL46Z256VLL
+4 -I.\RTE\_Target_1 -IC:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CM
+SIS\Core\Include -IC:\Users\Admin\AppData\Local\Arm\Packs\NXP\MKL46Z4_DFP\10.0.
+3 --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 528" --predef
+ine="_RTE_ SETA 1" --predefine="CPU_MKL46Z256VLL4 SETA 1" --list=.\listings\del
+ay.lst Delay.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Delay 00000000
+
+Symbol: Delay
+   Definitions
+      At line 18 in file Delay.s
+   Uses
+      At line 17 in file Delay.s
+Comment: Delay used once
+DelayA 00000000
+
+Symbol: DelayA
+   Definitions
+      At line 15 in file Delay.s
+   Uses
+      None
+Comment: DelayA unused
+LOOP 00000002
+
+Symbol: LOOP
+   Definitions
+      At line 20 in file Delay.s
+   Uses
+      At line 24 in file Delay.s
+Comment: LOOP used once
+LOOPEND 0000000A
+
+Symbol: LOOPEND
+   Definitions
+      At line 25 in file Delay.s
+   Uses
+      At line 23 in file Delay.s
+Comment: LOOPEND used once
+4 symbols
+340 symbols in table

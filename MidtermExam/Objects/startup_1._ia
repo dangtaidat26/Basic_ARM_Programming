@@ -1,0 +1,7 @@
+--cpu Cortex-M0+ --pd "__EVAL SETA 1" -g --apcs=interwork 
+-I.\RTE\Device\MKL46Z256VLL4
+-I.\RTE\_Target_1
+-IC:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+-IC:\Users\Admin\AppData\Local\Arm\Packs\NXP\MKL46Z4_DFP\10.0.3
+--pd "__UVISION_VERSION SETA 528" --pd "_RTE_ SETA 1" --pd "CPU_MKL46Z256VLL4 SETA 1"
+--list .\listings\startup.lst --xref -o .\objects\startup_1.o --depend .\objects\startup_1.d "Startup.s"
